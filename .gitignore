@@ -22,3 +22,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Visual Studio
+.vs/
+
+# Test coverage
+coverage/
+
+# Backup files
+*.backup.*
+package-lock.backup.json

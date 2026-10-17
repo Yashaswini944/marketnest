@@ -18,7 +18,9 @@ function Header() {
                     aria-label="MarketNest home"
                 >
                     <span className="logo-mark">M</span>
-                    <span>MarketNest</span>
+                    <span className="logo-market">arket</span>
+                    <span className="logo-n">N</span>
+                    <span className="logo-est">est</span>
                 </NavLink>
 
                 <nav className="nav" aria-label="Main navigation">

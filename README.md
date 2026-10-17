@@ -4,7 +4,7 @@
 
 The project focuses on reusable component design, predictable state management, API integration, responsive UI development, error handling, and automated testing.
 
-> **Live Demo:** Coming soon  
+> **Live Demo:**  https://marketnest-liart.vercel.app/
 > **Repository:** https://github.com/Yashaswini944/marketnest
 
 ---
@@ -431,12 +431,10 @@ Potential future enhancements include:
 
 ## 🌍 Deployment
 
-MarketNest will be deployed using **Vercel**.
-
-The production URL will be added here after deployment.
+MarketNest deployed using **Vercel**.
 
 ```text
-Live Demo: Coming soon
+Live Demo: https://marketnest-liart.vercel.app/
 ```
 
 ---

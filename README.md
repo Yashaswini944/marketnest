@@ -1,10 +1,11 @@
 # 🛍️ MarketNest
 
-**MarketNest** is a modern, responsive e-commerce web application built with React, Redux Toolkit, React Router, and Vite. It provides a complete shopping experience including product discovery, search and filtering, product details, cart management, and a demo checkout workflow.
+**MarketNest** is a modern, responsive web application built with React, Redux Toolkit, React Router, and Vite. It provides a complete shopping experience including product discovery, search and filtering, product details, cart management, and a demo checkout workflow.
 
 The project focuses on reusable component design, predictable state management, API integration, responsive UI development, error handling, and automated testing.
 
 > **Live Demo:**  https://marketnest-liart.vercel.app/
+
 > **Repository:** https://github.com/Yashaswini944/marketnest
 
 ---
@@ -373,16 +374,26 @@ The interface adapts the product grid, navigation, cart, checkout, and content l
 
 ## 📸 Screenshots
 
-Screenshots will be added before the production deployment.
-
 Planned screenshots:
+## 📸 Screenshots
 
-- Product catalog
-- Product details
-- Shopping cart
-- Checkout
-- Mobile responsive layout
+### Product Catalog
+![MarketNest Product Catalog](docs/screenshots/marketnest-home.png)
 
+### Product Details
+![MarketNest Product Details](docs/screenshots/marketnest-product-details.png)
+
+### Shopping Cart
+![MarketNest Shopping Cart](docs/screenshots/marketnest-cart.png)
+
+### Checkout
+![MarketNest Checkout](docs/screenshots/marketnest-checkout.png)
+
+### Order Confirmation
+![MarketNest Order Confirmation](docs/screenshots/marketnest-order-confirmed.png)
+
+### Responsive Mobile View
+![MarketNest Mobile View](docs/screenshots/marketnest-mobile.png)
 ---
 
 ## 🔐 Application Notes

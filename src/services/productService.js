@@ -1,27 +1,38 @@
 const API_BASE_URL = 'https://fakestoreapi.com';
 
-export const productService = {
-  // Fetch all products
-  getAllProducts: async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/products`);
-      if (!response.ok) throw new Error('Failed to fetch products');
-      return await response.json();
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      throw error;
+const handleResponse = async (response, errorMessage) => {
+    if (!response.ok) {
+        throw new Error(errorMessage);
     }
-  },
 
-  // Fetch single product by id
-  getProductById: async (id) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/products/${id}`);
-      if (!response.ok) throw new Error('Product not found');
-      return await response.json();
-    } catch (error) {
-      console.error('Error fetching product:', error);
-      throw error;
-    }
-  },
+    return response.json();
+};
+
+export const productService = {
+    getAllProducts: async () => {
+        const response = await fetch(`${API_BASE_URL}/products`);
+
+        return handleResponse(
+            response,
+            'Unable to load products. Please try again.'
+        );
+    },
+
+    getProductById: async (id) => {
+        const response = await fetch(`${API_BASE_URL}/products/${id}`);
+
+        return handleResponse(
+            response,
+            'Unable to load this product.'
+        );
+    },
+
+    getCategories: async () => {
+        const response = await fetch(`${API_BASE_URL}/products/categories`);
+
+        return handleResponse(
+            response,
+            'Unable to load product categories.'
+        );
+    },
 };

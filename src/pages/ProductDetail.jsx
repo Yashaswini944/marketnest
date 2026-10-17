@@ -1,104 +1,219 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import {
+    Link,
+    useNavigate,
+    useParams,
+} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+
 import { addToCart } from '../redux/cartSlice';
 import { productService } from '../services/productService';
 
 function ProductDetail() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [addedToCart, setAddedToCart] = useState(false);
+    const { id } = useParams();
 
-  useEffect(() => {
-    fetchProductDetail();
-  }, [id]);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-  const fetchProductDetail = async () => {
-    try {
-      setLoading(true);
-      const data = await productService.getProductById(id);
-      setProduct(data);
-    } catch (err) {
-      setError('Failed to load product');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [addedToCart, setAddedToCart] =
+        useState(false);
 
-  const handleAddToCart = (e) => {
-    e.preventDefault();
-    if (product) {
-      dispatch(addToCart({
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        image: product.image,
-      }));
-      setAddedToCart(true);
-      setTimeout(() => setAddedToCart(false), 2000);
-    }
-  };
+    const fetchProduct = async () => {
+        try {
+            setLoading(true);
+            setError('');
 
-  if (loading) return <div className="loading">Loading product...</div>;
-  if (error) return <div className="error">❌ {error}</div>;
-  if (!product) return <div className="error">❌ Product not found</div>;
+            const data =
+                await productService.getProductById(id);
 
-  return (
-    <div className="product-detail">
-      <button onClick={() => navigate('/')} className="back-button">
-        ← Back
-      </button>
-      
-      <div className="product-detail-content">
-        <div className="product-detail-image">
-          <img src={product.image} alt={product.title} />
-        </div>
+            setProduct(data);
+        } catch (err) {
+            setError(
+                err.message ||
+                'Unable to load this product.'
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
 
-        <div className="product-detail-info">
-          <h1 className="product-detail-title">{product.title}</h1>
-          
-          {product.rating && (
-            <div className="product-rating">
-              <span>⭐ {product.rating.rate}</span>
-              <span>({product.rating.count})</span>
-            </div>
-          )}
+    useEffect(() => {
+        let ignore = false;
 
-          <div className="product-detail-price">
-            ${product.price.toFixed(2)}
-          </div>
+        const loadProduct = async () => {
+            try {
+                const data =
+                    await productService.getProductById(id);
 
-          {product.category && (
-            <div className="product-category">
-              {product.category}
-            </div>
-          )}
+                if (!ignore) {
+                    setProduct(data);
+                }
+            } catch (err) {
+                if (!ignore) {
+                    setError(
+                        err.message ||
+                        'Unable to load this product.'
+                    );
+                }
+            } finally {
+                if (!ignore) {
+                    setLoading(false);
+                }
+            }
+        };
 
-          <div>
-            <h3>Description</h3>
-            <p className="product-description">
-              {product.description}
-            </p>
-          </div>
+        loadProduct();
 
-          <div className="product-detail-actions">
-            <button 
-              onClick={handleAddToCart}
-              className="detail-add-to-cart"
+        return () => {
+            ignore = true;
+        };
+    }, [id]);
+
+    const handleAddToCart = () => {
+        if (!product) {
+            return;
+        }
+
+        dispatch(
+            addToCart({
+                id: product.id,
+                title: product.title,
+                price: product.price,
+                image: product.image,
+            })
+        );
+
+        setAddedToCart(true);
+
+        window.setTimeout(() => {
+            setAddedToCart(false);
+        }, 1500);
+    };
+
+    if (loading) {
+        return (
+            <main
+                className="page-state"
+                role="status"
             >
-              {addedToCart ? '✓ Added to Cart' : 'Add to Cart'}
+                <div className="loading">
+                    Loading product...
+                </div>
+            </main>
+        );
+    }
+
+    if (error) {
+        return (
+            <main className="page-state">
+                <div
+                    className="error-state"
+                    role="alert"
+                >
+                    <h1>Unable to load product</h1>
+
+                    <p>{error}</p>
+
+                    <div className="error-actions">
+                        <button
+                            type="button"
+                            onClick={fetchProduct}
+                        >
+                            Try Again
+                        </button>
+
+                        <Link to="/">
+                            Back to Products
+                        </Link>
+                    </div>
+                </div>
+            </main>
+        );
+    }
+
+    if (!product) {
+        return (
+            <main className="page-state">
+                <h1>Product not found</h1>
+
+                <Link to="/">
+                    Back to Products
+                </Link>
+            </main>
+        );
+    }
+
+    return (
+        <main className="product-detail">
+            <button
+                type="button"
+                onClick={() => navigate(-1)}
+                className="back-button"
+            >
+                ← Back to products
             </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+
+            <article className="product-detail-content">
+                <div className="product-detail-image">
+                    <img
+                        src={product.image}
+                        alt={product.title}
+                    />
+                </div>
+
+                <div className="product-detail-info">
+                    <span className="product-category">
+                        {product.category}
+                    </span>
+
+                    <h1 className="product-detail-title">
+                        {product.title}
+                    </h1>
+
+                    {product.rating && (
+                        <div
+                            className="product-rating"
+                            aria-label={`Rated ${product.rating.rate} out of 5 from ${product.rating.count} reviews`}
+                        >
+                            <span>
+                                ★ {product.rating.rate}
+                            </span>
+
+                            <span>
+                                {product.rating.count} reviews
+                            </span>
+                        </div>
+                    )}
+
+                    <div className="product-detail-price">
+                        ${product.price.toFixed(2)}
+                    </div>
+
+                    <div className="product-description-section">
+                        <h2>About this product</h2>
+
+                        <p className="product-description">
+                            {product.description}
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={handleAddToCart}
+                        className={`detail-add-to-cart ${addedToCart ? 'added' : ''
+                            }`}
+                    >
+                        {addedToCart
+                            ? 'Added to Cart ✓'
+                            : 'Add to Cart'}
+                    </button>
+                </div>
+            </article>
+        </main>
+    );
 }
 
 export default ProductDetail;

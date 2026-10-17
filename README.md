@@ -1,256 +1,457 @@
-# 🛍️ React eShop
+# 🛍️ MarketNest
 
-A modern, professional e-commerce application built with React, Redux Toolkit, and React Router. Features a clean UI with smooth animations, shopping cart functionality, and a seamless checkout experience.
+**MarketNest** is a modern, responsive e-commerce web application built with React, Redux Toolkit, React Router, and Vite. It provides a complete shopping experience including product discovery, search and filtering, product details, cart management, and a demo checkout workflow.
+
+The project focuses on reusable component design, predictable state management, API integration, responsive UI development, error handling, and automated testing.
+
+> **Live Demo:** Coming soon  
+> **Repository:** https://github.com/Yashaswini944/marketnest
+
+---
 
 ## ✨ Features
 
-- **Product Catalog** - Browse products with pagination (8 products per page)
-- **Product Details** - View detailed information about each product
-- **Shopping Cart** - Add/remove products, adjust quantities
-- **Checkout** - Complete checkout form with order summary
-- **Responsive Design** - Works perfectly on desktop, tablet, and mobile
-- **Smooth Animations** - Professional fade-in and scale animations
-- **Professional UI** - Clean, modern color palette with soft tones
-- **State Management** - Redux Toolkit for cart management
-- **Client-Side Routing** - React Router for seamless navigation
+### Product Discovery
 
-## 🎨 Tech Stack
+- Browse products retrieved from the Fake Store API
+- Search products by name
+- Filter products by category
+- Sort products by price or name
+- Paginate product results
+- View detailed product information
+- Display product ratings and review counts
 
-- **Frontend Framework**: React 18
-- **State Management**: Redux Toolkit
-- **Routing**: React Router v6
-- **Build Tool**: Vite
-- **Styling**: CSS3
-- **API**: Fake Store API
+### Shopping Cart
+
+- Add products to the cart
+- Increase or decrease quantities
+- Remove products
+- Automatically calculate item counts
+- Automatically calculate cart totals
+- Access the cart from the main navigation
+
+### Demo Checkout
+
+- Shipping and payment information forms
+- Client-side form validation
+- Order summary
+- Processing state during checkout
+- Order confirmation
+- Cart clearing after successful demo checkout
+- No real payment information is processed
+
+### User Experience
+
+- Responsive layouts for desktop, tablet, and mobile
+- Loading states while retrieving API data
+- Error states when requests fail
+- Retry functionality for failed requests
+- Empty-cart state
+- No-results state for product searches and filters
+- Accessible labels and semantic navigation
+- Responsive product grid
+
+---
+
+## 🛠️ Tech Stack
+
+| Area | Technology |
+|---|---|
+| Frontend | React |
+| State Management | Redux Toolkit, React Redux |
+| Routing | React Router |
+| Build Tool | Vite |
+| Styling | CSS3 |
+| API | Fake Store API |
+| Testing | Vitest |
+| Component Testing | React Testing Library |
+| User Interaction Testing | Testing Library User Event |
+| Test Environment | jsdom |
+| Coverage | V8 |
+| Code Quality | ESLint |
+| Version Control | Git & GitHub |
+
+---
+
+## 🏗️ Application Architecture
+
+MarketNest separates UI components, pages, application state, routing, API communication, and automated tests into dedicated areas.
+
+```text
+User Interface
+      │
+      ▼
+React Components / Pages
+      │
+      ├──────────────► React Router
+      │
+      ▼
+Redux Toolkit Store
+      │
+      ▼
+Cart State
+
+React Pages
+      │
+      ▼
+Product Service
+      │
+      ▼
+Fake Store API
+```
+
+This separation keeps API communication outside UI components and centralizes shopping-cart state through Redux Toolkit.
+
+---
 
 ## 📁 Project Structure
+
 ```text
-react-eshop/
+marketnest/
 ├── src/
 │   ├── components/
 │   │   ├── Header.jsx
+│   │   ├── Header.test.jsx
+│   │   ├── Pagination.jsx
+│   │   ├── Pagination.test.jsx
 │   │   ├── ProductCard.jsx
-│   │   └── Pagination.jsx
+│   │   └── ProductCard.test.jsx
+│   │
 │   ├── pages/
+│   │   ├── Checkout.jsx
+│   │   ├── Checkout.test.jsx
 │   │   ├── Home.jsx
+│   │   ├── Home.test.jsx
 │   │   ├── ProductDetail.jsx
+│   │   ├── ProductDetail.test.jsx
 │   │   ├── ShoppingCart.jsx
-│   │   └── Checkout.jsx
-│   ├── services/
-│   │   └── productService.js
+│   │   └── ShoppingCart.test.jsx
+│   │
 │   ├── redux/
-│   │   ├── store.js
-│   │   └── cartSlice.js
+│   │   ├── cartSlice.js
+│   │   ├── cartSlice.test.js
+│   │   └── store.js
+│   │
+│   ├── routes/
+│   │   └── Router.jsx
+│   │
+│   ├── services/
+│   │   ├── productService.js
+│   │   └── productService.test.js
+│   │
+│   ├── test/
+│   │   └── setup.js
+│   │
 │   ├── App.jsx
 │   ├── App.css
-│   ├── main.jsx
-│   └── index.css
-├── public/
+│   ├── index.css
+│   └── main.jsx
+│
+├── .gitignore
+├── eslint.config.js
+├── index.html
 ├── package.json
+├── package-lock.json
 ├── vite.config.js
 └── README.md
+```
+
+---
+
+## 🧪 Testing
+
+MarketNest includes automated tests covering application behavior across components, pages, Redux state management, and API services.
+
+### Current Test Results
+
+```text
+Test Files:  9 passed
+Tests:       86 passed
+Failures:    0
+```
+
+### Verified Coverage
+
+| Metric | Coverage |
+|---|---:|
+| Statements | 97.20% |
+| Branches | 91.40% |
+| Functions | 96.10% |
+| Lines | 97.13% |
+
+Tests cover functionality including:
+
+- Cart reducer behavior
+- Adding and removing products
+- Quantity updates
+- Cart total calculations
+- Product API requests
+- API failure handling
+- Product cards
+- Product details
+- Search and filtering behavior
+- Sorting
+- Pagination
+- Loading and error states
+- Shopping-cart interactions
+- Checkout validation
+- Demo order submission
+- Header cart counts
+- Navigation behavior
+
+Run the complete test suite:
+
+```bash
+npm run test:run
+```
+
+Generate a coverage report:
+
+```bash
+npm run test:coverage
+```
+
+---
+
+## 🌐 API Integration
+
+MarketNest retrieves product information from the **Fake Store API**.
+
+API:
+
+```text
+https://fakestoreapi.com
+```
+
+### Endpoints Used
+
+```http
+GET /products
+GET /products/:id
+```
+
+Product requests are centralized in:
+
+```text
+src/services/productService.js
+```
+
+The service validates HTTP responses and throws application-friendly errors when requests fail.
+
+---
+
+## 🔄 State Management
+
+Shopping-cart state is managed with Redux Toolkit.
+
+The cart state contains:
+
+```text
+items
+totalPrice
+```
+
+The cart slice provides the following actions:
+
+```text
+addToCart
+removeFromCart
+updateQuantity
+clearCart
+```
+
+This provides a centralized source of truth for cart information across the application.
+
+---
+
+## 🧭 Routes
+
+| Route | Page | Purpose |
+|---|---|---|
+| `/` | Home | Browse, search, filter, sort, and paginate products |
+| `/product/:id` | Product Detail | View detailed information about a product |
+| `/cart` | Shopping Cart | Manage products and quantities |
+| `/checkout` | Checkout | Complete the demo checkout workflow |
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- npm or yarn
+Install a currently supported Node.js version and npm.
 
-### Installation
+Check your installation:
 
-1. **Clone the repository**
 ```bash
-git clone 
-cd react-eshop
+node --version
+npm --version
 ```
 
-2. **Install dependencies**
+### Clone the Repository
+
+```bash
+git clone https://github.com/Yashaswini944/marketnest.git
+cd marketnest
+```
+
+### Install Dependencies
+
 ```bash
 npm install
 ```
 
-3. **Start the development server**
+### Start the Development Server
+
 ```bash
 npm run dev
 ```
 
-4. **Open in browser**
-## 📦 Available Scripts
-
-### Development
-```bash
-npm run dev
-```
-Runs the app in development mode with hot module replacement.
-
-### Build
-```bash
-npm run build
-```
-Builds the app for production to the `dist` folder.
-
-### Preview
-```bash
-npm run preview
-```
-Preview the production build locally.
-
-## 🎯 Pages & Routes
-
-| Route | Component | Description |
-|-------|-----------|-------------|
-| `/` | Home | Product listing with pagination |
-| `/product/:id` | ProductDetail | Detailed product information |
-| `/cart` | ShoppingCart | View and manage cart items |
-| `/checkout` | Checkout | Checkout form and order summary |
-
-## 🛒 Features Explained
-
-### Home Page
-- Displays 8 products per page
-- Smooth product card animations
-- Navigation with "Details" and "Add to Cart" buttons
-- Pagination controls for browsing products
-
-### Product Details Page
-- Full product information
-- Product rating and reviews count
-- Product category
-- "Add to Cart" button to add products to cart
-- Cart count updates in real-time
-
-### Shopping Cart
-- View all added products
-- Adjust product quantities
-- Remove items from cart
-- View total price
-- Proceed to checkout
-
-### Checkout
-- Shipping information form
-- Payment information form
-- Order summary sidebar
-- Real-time order total calculation
-- Order confirmation message
-
-## 🔄 State Management (Redux)
-
-### Cart Slice
-The cart state includes:
-- `items` - Array of products in cart
-- `totalPrice` - Total price of all items
-
-### Actions
-- `addToCart` - Add product to cart
-- `removeFromCart` - Remove product from cart
-- `updateQuantity` - Update product quantity
-- `clearCart` - Clear all items from cart
-
-## 🌐 API Integration
-
-Products are fetched from **Fake Store API**:
-
-### API Endpoints Used
-- `GET /products` - Get all products
-- `GET /products/:id` - Get product by ID
-
-## 📱 Responsive Breakpoints
-
-- **Desktop**: 1024px and above (4 columns)
-- **Tablet**: 768px - 1023px (3 columns)
-- **Mobile**: Below 768px (2 columns)
-
-## 🔐 Data Persistence
-
-- Cart data is stored in Redux store (session-based)
-- No backend authentication required
-- All data clears on page refresh (as expected)
-
-## 🎯 Pagination Details
-
-- **Products Per Page**: 8
-- **Grid Layout**: 4 columns × 2 rows on desktop
-- **Consistent**: Same number of products on every page
-- **Navigation**: Previous/Next buttons and page numbers
-
-## 📝 Usage Example
-
-### Adding a Product to Cart
-1. Browse products on home page
-2. Click "Add to Cart" on any product
-3. See cart count update in navbar
-4. View cart by clicking cart icon
-
-### Completing a Purchase
-1. Click "Add to Cart" on desired products
-2. Navigate to cart
-3. Adjust quantities if needed
-4. Click "Checkout"
-5. Fill in shipping and payment info
-6. Click "Place Order"
-7. See order confirmation
-
-## 🐛 Known Limitations
-
-- No backend integration (Fake Store API is read-only)
-- No user authentication
-- Cart data is not persisted (clears on refresh)
-- Test card numbers: Use any 13-19 digit number
-
-## 🔧 Customization
-
-### Change Colors
-Edit CSS variables in `src/App.css`:
-```css
-:root {
-  --primary-main: #4a90e2;
-  --accent-success: #48bb78;
-  --accent-danger: #e17055;
-}
-```
-
-### Change Products Per Page
-Edit `src/pages/Home.jsx`:
-```javascript
-const productsPerPage = 8; // Change this value
-```
-
-### Change Grid Columns
-Edit `src/App.css`:
-```css
-.products-grid {
-  grid-template-columns: repeat(4, 1fr); /* Change 4 to desired columns */
-}
-```
-
-## 🔗 Links
-
-- **Live Demo**: [https://react-eshop-demo.vercel.app](https://react-eshop-demo.vercel.app)
-- **Fake Store API**: [https://fakestoreapi.com](https://fakestoreapi.com)
+Vite will display the local development URL in the terminal.
 
 ---
 
+## 📦 Available Commands
 
+### Development
 
+```bash
+npm run dev
+```
 
+Starts the Vite development server.
 
+### Automated Tests
 
+```bash
+npm run test:run
+```
 
+Runs the automated test suite.
 
-# React + Vite
+### Test Coverage
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+```bash
+npm run test:coverage
+```
 
-Currently, two official plugins are available:
+Runs the test suite and generates a V8 coverage report.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Lint
 
-## React Compiler
+```bash
+npm run lint
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Checks the project with ESLint.
 
-## Expanding the ESLint configuration
+### Production Build
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm run build
+```
+
+Creates an optimized production build in the `dist` directory.
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+Runs the production build locally for verification.
+
+---
+
+## 📱 Responsive Design
+
+MarketNest was designed and tested across desktop, tablet, and mobile layouts.
+
+The interface adapts the product grid, navigation, cart, checkout, and content layout according to the available screen width.
+
+---
+
+## 📸 Screenshots
+
+Screenshots will be added before the production deployment.
+
+Planned screenshots:
+
+- Product catalog
+- Product details
+- Shopping cart
+- Checkout
+- Mobile responsive layout
+
+---
+
+## 🔐 Application Notes
+
+MarketNest is a portfolio/demo application.
+
+- Products come from the Fake Store API.
+- Checkout is a simulated workflow.
+- No real payments are processed.
+- No real payment credentials should be entered.
+- User authentication is not currently implemented.
+- Cart state is maintained in Redux for the current application session.
+
+---
+
+## 🔍 Code Quality
+
+The project uses several checks before changes are considered ready:
+
+```bash
+npm run test:run
+npm run lint
+npm run build
+```
+
+The current project passes all three checks.
+
+---
+
+## 🚧 Future Improvements
+
+Potential future enhancements include:
+
+- Backend API integration
+- User authentication and authorization
+- Persistent shopping carts
+- User profiles
+- Order history
+- Product favorites
+- Backend inventory management
+- Real database integration
+- CI/CD workflow
+- Additional accessibility testing
+
+---
+
+## 🌍 Deployment
+
+MarketNest will be deployed using **Vercel**.
+
+The production URL will be added here after deployment.
+
+```text
+Live Demo: Coming soon
+```
+
+---
+
+## 👩‍💻 Author
+
+**Yashaswini**
+
+M.S. in Computer Science  
+Auburn University at Montgomery
+
+GitHub: https://github.com/Yashaswini944
+
+---
+
+## 📄 Project Purpose
+
+MarketNest was developed as a portfolio project to demonstrate practical frontend software engineering skills including React application development, Redux state management, REST API integration, responsive design, routing, automated testing, error handling, and production build workflows.
